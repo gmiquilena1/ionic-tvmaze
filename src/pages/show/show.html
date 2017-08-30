@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>{{show ? show.name : 'loading...'}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+  <ion-grid>
+
+    <div *ngIf='!show ; else information'>
+      loading...
+    </div>
+
+    <ng-template #information>
+      <ion-row>
+        <ion-col col-6 col-sm-3>
+          <img width="150px" height="230px" [src]="show?show.image.medium:'assets/img/default_image.png'" imageViewer="{{show?show.image.original:'assets/img/default_image.png'}}"
+          />
+        </ion-col>
+        <ion-col col-6 col-sm-4>
+          <button *ngIf="show" ion-button round clear outline icon-only [color]="show.like?'like':'light'" (click)=ilike()>
+            <ion-icon name="thumbs-up"></ion-icon>
+          </button>
+          <h2 ion-text text-wrap>{{show.name}}</h2>
+          <h3 ion-text>{{ show.type }}</h3>
+          <p ion-text text-wrap><span *ngFor="let gen of show.genres"> {{ gen }} </span></p>
+          <p>Duration: {{show.runtime | parseHours }}</p>
+          <p ion-text text-wrap><span *ngFor="let days of show.schedule.days"> {{ days }} </span>
+            <span>{{show.schedule.time}}</span>
+          </p>
+          <rating [(ngModel)]="show.rating.average" readOnly="true" max="5" emptyStarIconName="star-outline" halfStarIconName="star-half"
+            starIconName="star" nullable="false" (ngModelChange)="onModelChange($event)">
+          </rating>
+        </ion-col>
+        <ion-col col-12 col-sm-5>
+          <p [innerHTML]="show.summary"></p>
+        </ion-col>
+      </ion-row>
+    </ng-template>
+  </ion-grid>
+
+</ion-content>

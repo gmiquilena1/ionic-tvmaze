@@ -1,14 +1,37 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
-</ion-header>
+<ion-content>
+    <ion-content>
+        <ion-searchbar
+        [(ngModel)]="search"
+        [showCancelButton]="shouldShowCancel"
+        (ionInput)="onInputSearch($event)"
+        (ionCancel)="onCancelSearch($event)">
+      </ion-searchbar>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <ion-list [virtualScroll]="listShows" [virtualTrackBy]="identify" [approxItemHeight]="maxPxByRatio" approxHeaderHeight="0px"
+  approxFooterHeight="0px">
+
+    <ion-item *virtualItem="let item">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-3 col-sm-2 (click)="goToDetails(item.id)">
+            <img [src]="item.image.medium" width="70px" />
+          </ion-col>
+          <ion-col col-7 col-sm-9 (click)="goToDetails(item.id)">
+            <h1 ion-text text-wrap>{{ item.name }}</h1>
+            <h3 ion-text>{{ item.type }}</h3>
+            <p ion-text text-wrap><span *ngFor="let gen of item.genres"> {{ gen }} </span></p>
+            <h4 ion-text>{{item.runtime | parseHours }}</h4>
+            <rating [(ngModel)]="item.rating.average" readOnly="true" max="5" emptyStarIconName="star-outline" halfStarIconName="star-half"
+              starIconName="star" nullable="false" (ngModelChange)="onModelChange($event)">
+            </rating>
+          </ion-col>
+          <ion-col col-2 col-sm-1>
+            <button ion-button round clear outline icon-only [color]="item.like?'like':'light'" (click)=ilike(item)>
+                  <ion-icon name="thumbs-up"></ion-icon>
+                </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
 </ion-content>

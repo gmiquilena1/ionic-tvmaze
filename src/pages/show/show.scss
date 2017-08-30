@@ -1,0 +1,17 @@
+page-show {
+    ul {
+        padding: 0px;
+        
+        margin: 0px;
+
+        &.rating li {
+          padding: 2px 1px !important;
+          background: none;
+          color: #ffb400;
+      
+          ion-icon {
+            font-size: 15px;
+          }
+        }
+      }
+}
